@@ -12,6 +12,7 @@ import { createRedisConnection } from "./config/redis.js";
 import { appRouter } from "./trpc/router.js";
 import { createContextFactory } from "./trpc/context.js";
 import { setupSocketHandlers } from "./socket/handler.js";
+import { JobManager } from "./queue/compression.queue.js";
 import { uploadRouter } from "./routes/upload.js";
 import { logger } from "./utils/logger.js";
 
@@ -43,6 +44,9 @@ const io = new SocketIOServer<ClientToServerEvents, ServerToClientEvents>(server
   transports: ["websocket", "polling"],
 });
 setupSocketHandlers(io);
+
+// Initialize Queue & Job Manager (with BullMQ + in-memory fallback)
+JobManager.initialize(io, redis);
 
 // tRPC express middleware mount
 app.use(
