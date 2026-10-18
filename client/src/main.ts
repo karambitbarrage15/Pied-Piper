@@ -68,6 +68,7 @@ const socketStatusText = document.getElementById("socketStatusText")!;
 const particleCanvas = new ParticleCanvas(canvasWrapper);
 const dashboard = new Dashboard(dashboardContainer);
 const algoPicker = new AlgorithmPicker(algoContainer);
+const aiBannerContainer = document.getElementById("aiBannerContainer")!;
 
 let selectedFile: File | null = null;
 const socket = createSocketClient();
@@ -79,6 +80,46 @@ socket.on("connect", () => {
 socket.on("disconnect", () => {
   socketStatusText.textContent = "Engine Reconnecting...";
 });
+
+async function runAiAnalysis(file: File) {
+  aiBannerContainer.innerHTML = `
+    <div class="ai-card" style="opacity: 0.7;">
+      <div class="ai-icon">🤖</div>
+      <div class="ai-content">
+        <h4>Analyzing File with Pied Piper Intelligence...</h4>
+        <p>Evaluating entropy patterns and predicting optimal compression parameters...</p>
+      </div>
+    </div>
+  `;
+
+  try {
+    const analysis = await trpc.analyze.file.mutate({
+      fileName: file.name,
+      fileSize: file.size,
+    });
+
+    aiBannerContainer.innerHTML = `
+      <div class="ai-card">
+        <div class="ai-icon">🤖</div>
+        <div class="ai-content">
+          <h4>
+            Pied Piper File Intelligence
+            <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-green); background: rgba(0,255,136,0.15); padding: 0.15rem 0.5rem; border-radius: 4px;">
+              ${escapeHtml(analysis.predictedRatio)}
+            </span>
+          </h4>
+          <p>${escapeHtml(analysis.rationale)}</p>
+        </div>
+      </div>
+    `;
+
+    if (analysis.algorithm) {
+      algoPicker.setAlgorithm(analysis.algorithm);
+    }
+  } catch {
+    aiBannerContainer.innerHTML = "";
+  }
+}
 
 // Dropzone initialization
 new DropZone(dropzoneContainer, {
@@ -94,6 +135,7 @@ new DropZone(dropzoneContainer, {
       </svg>
       Compress "${escapeHtml(file.name)}"
     `;
+    runAiAnalysis(file);
   },
   onFileCleared: () => {
     selectedFile = null;
@@ -101,6 +143,7 @@ new DropZone(dropzoneContainer, {
     btnCompress.innerHTML = `Compress File (Middle-Out)`;
     dashboard.hide();
     particleCanvas.setMode("idle");
+    aiBannerContainer.innerHTML = "";
   },
 });
 

@@ -10,6 +10,7 @@ import {
   AlgorithmSchema,
 } from "@pied-piper/shared";
 import { JobManager } from "../queue/compression.queue.js";
+import { GeminiService } from "../services/gemini.service.js";
 import { env } from "../config/env.js";
 
 const UPLOAD_ROOT = path.resolve(env.UPLOAD_DIR);
@@ -35,6 +36,19 @@ export const appRouter = router({
         algorithms: ALGORITHMS.map((id) => ALGORITHM_INFO[id]),
       };
     }),
+  }),
+
+  analyze: router({
+    file: publicProcedure
+      .input(
+        z.object({
+          fileName: z.string().min(1),
+          fileSize: z.number().positive(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return GeminiService.analyzeFile(input.fileName, input.fileSize);
+      }),
   }),
 
   compress: router({
