@@ -1,0 +1,21 @@
+{
+  "name": "@pied-piper/client",
+  "version": "1.0.0",
+  "description": "Pied Piper compression UI — Vite + TypeScript",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@trpc/client": "^11.1.0",
+    "socket.io-client": "^4.8.1",
+    "@pied-piper/shared": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "vite": "^6.3.2"
+  }
+}

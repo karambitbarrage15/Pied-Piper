@@ -1,0 +1,39 @@
+{
+  "name": "@pied-piper/server",
+  "version": "1.0.0",
+  "description": "Pied Piper compression server — Express + tRPC + Socket.io",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "@toondepauw/node-zstd": "^2.0.0",
+    "@trpc/server": "^11.1.0",
+    "bullmq": "^5.40.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.0",
+    "ioredis": "^5.6.1",
+    "multer": "^2.0.1",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "socket.io": "^4.8.1",
+    "uuid": "^11.1.0",
+    "zod": "^3.24.4",
+    "@pied-piper/shared": "*"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.2",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.14.1",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.7.3"
+  }
+}
