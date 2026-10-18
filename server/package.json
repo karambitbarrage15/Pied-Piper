@@ -4,6 +4,17 @@
   "description": "Pied Piper compression server — Express + tRPC + Socket.io",
   "type": "module",
   "main": "./dist/index.js",
+  "types": "./dist/trpc/router.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/trpc/router.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./router": {
+      "types": "./dist/trpc/router.d.ts",
+      "import": "./dist/trpc/router.js"
+    }
+  },
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
