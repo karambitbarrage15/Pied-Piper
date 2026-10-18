@@ -14,6 +14,7 @@ import { createContextFactory } from "./trpc/context.js";
 import { setupSocketHandlers } from "./socket/handler.js";
 import { JobManager } from "./queue/compression.queue.js";
 import { uploadRouter } from "./routes/upload.js";
+import { downloadRouter } from "./routes/download.js";
 import { logger } from "./utils/logger.js";
 
 // Ensure required directories exist
@@ -57,8 +58,9 @@ app.use(
   })
 );
 
-// Upload REST API
+// Upload & Download REST APIs
 app.use("/api/upload", uploadRouter);
+app.use("/api/download", downloadRouter);
 
 // REST Health Check Endpoint
 app.get("/api/health", (_req, res) => {
