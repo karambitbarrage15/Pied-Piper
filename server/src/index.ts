@@ -12,6 +12,7 @@ import { createRedisConnection } from "./config/redis.js";
 import { appRouter } from "./trpc/router.js";
 import { createContextFactory } from "./trpc/context.js";
 import { setupSocketHandlers } from "./socket/handler.js";
+import { uploadRouter } from "./routes/upload.js";
 import { logger } from "./utils/logger.js";
 
 // Ensure required directories exist
@@ -51,6 +52,9 @@ app.use(
     createContext: createContextFactory({ io, redis }),
   })
 );
+
+// Upload REST API
+app.use("/api/upload", uploadRouter);
 
 // REST Health Check Endpoint
 app.get("/api/health", (_req, res) => {
